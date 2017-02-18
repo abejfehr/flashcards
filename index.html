@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Flashcards</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        font-family: sans-serif;
+        perspective: 7000px;
+      }
+
+      #card {
+        width: 90%;
+        height: 90%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transform-style: preserve-3d;
+        opacity: 0;
+      }
+
+      #card > div {
+        backface-visibility: hidden;
+        border: 1px solid lightgray;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        padding: 4%;
+        transition: 200ms;
+        box-shadow: 5px 5px 15px #888888;
+      }
+
+      #front {
+        transform: rotateY(180deg);
+        z-index: 2;
+      }
+
+      #back {
+        transform: rotateY(-180deg);
+        z-index: 1;
+      }
+
+      .shown {
+        transform: rotateY(0deg) !important;
+      }
+
+      .container {
+        /* border: 1px dashed lightgray; */
+        height: 100%;
+        position: relative;
+      }
+
+      .text {
+        cursor: default;
+        text-align: center;
+        font-weight: bold;
+        max-height: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        overflow-wrap: normal;
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome and Opera */
+      }
+
+      .intro table {
+        margin: 0 auto;
+      }
+
+      .intro .key {
+        border: 2px solid black;
+        height: 40px;
+        min-width: 40px;
+        border-radius: 4px;
+      }
+      .intro .space.key {
+        width: 200px;
+      }
+      .intro .blank {
+        width: 75px;
+      }
+      .intro .asdf {
+        display: flex;
+      }
+      .intro pre {
+        text-align: left;
+      }
+
+      @keyframes show-right {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -50%) scale(0.5);
+        }
+        100% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+      }
+
+      @keyframes dispose-left {
+        0% {
+          opacity: 1;
+          transform: translate(-50%, -50%);
+        }
+        80% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 0;
+          transform: translate(-80%, -50%) scale(1.3) rotate(-35deg);
+        }
+      }
+
+      .dispose-left {
+        animation-name: dispose-left;
+        animation-duration: 150ms;
+        animation-fill-mode: forwards;
+      }
+
+      .show-right {
+        animation-name: show-right;
+        animation-duration: 150ms;
+        animation-delay: 200ms;
+        animation-fill-mode: forwards;
+      }
+
+      .dispose-right {
+        animation-name: show-right;
+        animation-direction: reverse;
+        animation-duration: 150ms;
+        animation-fill-mode: forwards;
+      }
+
+      .show-left {
+        animation-name: dispose-left;
+        animation-direction: reverse;
+        animation-duration: 150ms;
+        animation-delay: 200ms;
+        animation-fill-mode: forwards;
+      }
+
+      .drop {
+        background: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="card" class="show-left">
+      <div id="front">
+        <div class="container">
+          <div class="text"></div>
+        </div>
+      </div>
+      <div id="back">
+        <div class="container">
+          <div class="text"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+
+var cards = [];
+
+// The amount of pixels the input's contents is allowed to exceed its size
+const SAFE  = 5;
+
+// The most efficient way to increase the font sizes is by powers of 2
+const sizes = [1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1];
+
+const FRONT = 0;
+const BACK  = 1;
+
+const ENTER = 13;
+const SPACE = 32;
+const LEFT  = 37;
+const UP    = 38;
+const RIGHT = 39;
+const DOWN  = 40;
+
+var card      = document.getElementById('card');
+var front     = card.querySelector('#front');
+var back      = card.querySelector('#back');
+var frontText = card.querySelector('#front .text');
+var backText  = card.querySelector('#back .text');
+
+var currentCard = 0;
+var currentFace = FRONT;
+
+var indices = cards.map((x, i) => i);
+
+var shuffle = function (a) {
+  for (let i = a.length; i; --i) {
+    let j = Math.floor(Math.random() * i);
+    [a[i - 1], a[j]] = [a[j], a[i - 1]];
+  }
+};
+
+var flip = function () {
+  // Flip the card
+  currentFace = (currentFace + 1) % 2
+  front.className = currentFace == FRONT ? 'shown' : '';
+  back.className = currentFace == BACK ? 'shown' : '';
+};
+
+var render = function () {
+  if (!cards.length) {
+    frontText.innerHTML = `
+    <div class="intro">
+      <h1>Flashcards</h1>
+      <p>To begin, simply drag and drop a text file with your flashcards onto the page.</p>
+      <div class="asdf">
+        <div class="left">
+          <p>The text file should be formatted as follows:</p>
+          <pre>
+Front of card 1
+---
+Back of card 1
+---
+Front of card 2
+---
+Back of card 2
+---
+Front of card 3
+---
+Back of card 3
+          </pre>
+        </div>
+        <div class="right">
+          <p>Once the questions are loaded, you can use the space and arrow keys to naviagate your flash cards!</p>
+          <table>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td class="key">↑</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="key space"></td>
+              <td class="blank"></td>
+              <td class="key">←</td>
+              <td class="key">↓</td>
+              <td class="key">→</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    `;
+    front.className = currentFace == FRONT ? 'shown' : '';
+    backText.innerHTML = 'Oh, this is awkward...';
+    back.className = currentFace == BACK ? 'shown' : '';
+
+    return;
+  }
+
+  // Put that card's text on the front/back of the actual card
+  frontText.innerText = cards[currentCard].front;
+  resizeText(frontText);
+  front.className = currentFace == FRONT ? 'shown' : '';
+  backText.innerText = cards[currentCard].back;
+  resizeText(backText);
+  back.className = currentFace == BACK ? 'shown' : '';
+};
+
+var previous = function () {
+  // Move the current card away
+  card.className = 'dispose-right';
+
+  // Shuffle the cards if we need to
+  if (currentCard % cards.length == 0) {
+    shuffle(cards);
+  }
+
+  setTimeout(function () {
+    // Flip the current card face forwards
+    currentFace = FRONT;
+
+    // Pick a new card
+    currentCard = (currentCard - 1 + cards.length) % cards.length;
+
+    // Render it to the screen
+    render();
+
+    // Reveal the card
+    card.className = 'show-left';
+  }, 150);
+};
+
+var next = function () {
+  // Move the current card away
+  card.className = 'dispose-left';
+
+  // Shuffle the cards if we need to
+  if (currentCard % cards.length == 0) {
+    shuffle(cards);
+  }
+
+  setTimeout(function () {
+    // Flip the current card face forwards
+    currentFace = FRONT;
+
+    // Pick a new card
+    currentCard = ++currentCard % cards.length;
+
+    // Render it to the screen
+    render();
+
+    // Reveal the card
+    card.className = 'show-right';
+  }, 150);
+};
+
+// I just basically copied/pasted this method from my bigtext project
+var resizeText = function (element) {
+  // Store the font size to use. We'll start with 1.
+  var fontSize = 1;
+
+  // And if the user hasn't entered anything, just don't bother
+  if (!element.innerText) { return; }
+
+  // Now go through each power of 2 and try adding it to the size
+    for (let i = 0; i < sizes.length; ++i) {
+      fontSize += sizes[i];
+      element.style.fontSize = (fontSize) + 'px';
+
+      // If it's too big, we'll just go back
+      if (element.scrollWidth > element.clientWidth + SAFE ||
+          element.scrollHeight > element.clientHeight + SAFE) {
+        fontSize -= sizes[i];
+        element.style.fontSize = (fontSize) + 'px';
+      }
+    }
+};
+
+var handleKeyDown = function (e) {
+  if (e.keyCode == SPACE) {
+    flip();
+  } else if (e.keyCode == ENTER) {
+    flip();
+  } else if (e.keyCode == LEFT) {
+    previous();
+  } else if (e.keyCode == RIGHT) {
+    next();
+  }
+};
+
+var parseData = function (data) {
+  // Separate the data by the number of dashes or whatever
+  var lines = data.split(/\n+\-{3,}\n+/g);
+  var cards = [];
+  for (let i = 0; i < lines.length; i += 2) {
+    var card = {
+      front: lines[i],
+      back: i + 1 < lines.length ? lines[i + 1] : '',
+    };
+    cards.push(card);
+  }
+  return cards;
+};
+
+function handleFileSelect (e) {
+  e.stopPropagation();
+  e.preventDefault();
+
+  var files = e.dataTransfer.files; // FileList object.
+
+  // files is a FileList of File objects. List some properties.
+  var output = [];
+  for (var i = 0, f; f = files[i]; i++) {
+    var reader = new FileReader();
+
+    // Closure to capture the file information.
+    reader.onload = (function(theFile) {
+      return function(x) {
+        if (x.target.result) {
+          // Parse the results and then move them to an object
+          cards = parseData(x.target.result);
+          render();
+        }
+      };
+    })(f);
+
+    // Read in the image file as a data URL.
+    reader.readAsText(f);
+  }
+  var el = e.target;
+  while ((el = el.parentElement) && el.id != 'card');
+
+  el.classList.remove('drop');
+
+}
+
+function handleDragOver (e) {
+  e.stopPropagation();
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+
+  var el = e.target;
+  while ((el = el.parentElement) && el.id != 'card');
+
+  // Add the class to say we're dragging over
+  el.classList.add('drop');
+  // e.target.classList.remove('drop');
+}
+
+function handleDragLeave (e) {
+  var el = e.target;
+  while ((el = el.parentElement) && el.id != 'card');
+
+  el.classList.remove('drop');
+  // e.target.classList.remove('drop');
+}
+
+// Bind all of the event listeners
+card.addEventListener('click', flip);
+card.addEventListener('dragover', handleDragOver, true);
+card.addEventListener('dragleave', handleDragLeave, true);
+card.addEventListener('drop', handleFileSelect, true);
+document.addEventListener('keydown', handleKeyDown);
+window.addEventListener('resize', render);
+
+// Shuffle the indices
+shuffle(indices);
+
+// Render the first card
+render();
+
+    </script>
+  </body>
+</html>
