@@ -3,13 +3,24 @@
   <head>
     <meta charset="utf-8">
     <title>Flashcards</title>
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Narrow|Poppins|Questrial|Quicksand" rel="stylesheet">
     <style>
       html, body {
         margin: 0;
         padding: 0;
         height: 100%;
-        font-family: sans-serif;
+        overflow: hidden;
         perspective: 7000px;
+        font-family: sans-serif;
+      }
+
+      h1, h2 {
+        font-family: 'Quicksand', sans-serif;
+      }
+
+      h1 {
+        font-size: 6vw;
+        margin-bottom: 3px;
       }
 
       #card {
@@ -20,6 +31,7 @@
         top: 50%;
         transform: translate(-50%, -50%);
         transform-style: preserve-3d;
+        font-family: 'Poppins', sans-serif;
         opacity: 0;
       }
 
@@ -64,10 +76,9 @@
         max-width: 100%;
         overflow: hidden;
         overflow-wrap: normal;
-        transform: translate(-50%, -50%);
+        transform: translate(0, -50%);
         position: absolute;
         top: 50%;
-        left: 50%;
         -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
    -khtml-user-select: none; /* Konqueror HTML */
@@ -75,6 +86,44 @@
       -ms-user-select: none; /* Internet Explorer/Edge */
           user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome and Opera */
+      }
+
+      .note {
+        position: relative;
+        width: 60%;
+        padding: 1em 1.5em;
+        margin: 50px auto;
+        color: #fff;
+        background: #97C02F;
+        overflow: hidden;
+      }
+
+      .note:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        border-width: 0 16px 16px 0;
+        border-style: solid;
+        border-color: #fff #fff #658E15 #658E15;
+        background: #658E15;
+        -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.3), -1px 1px 1px rgba(0,0,0,0.2);
+        -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.3), -1px 1px 1px rgba(0,0,0,0.2);
+        box-shadow: 0 1px 1px rgba(0,0,0,0.3), -1px 1px 1px rgba(0,0,0,0.2);
+        /* Firefox 3.0 damage limitation */
+        display: block; width: 0;
+      }
+
+      .note.rounded {
+        -moz-border-radius: 5px 0 5px 5px;
+        border-radius: 5px 0 5px 5px;
+      }
+
+      .note.rounded:before {
+        border-width: 8px;
+        border-color: #fff #fff transparent transparent;
+        -moz-border-radius: 0 0 0 5px;
+        border-radius: 0 0 0 5px;
       }
 
       .intro table {
@@ -86,15 +135,32 @@
         height: 40px;
         min-width: 40px;
         border-radius: 4px;
+        transition: 100ms;
       }
       .intro .space.key {
         width: 200px;
+      }
+      .intro .key.pressed {
+        background-color: pink;
       }
       .intro .blank {
         width: 75px;
       }
       .intro .asdf {
         display: flex;
+      }
+      .intro .asdf > div {
+        flex: 1;
+        padding: 15px;
+        border: 3px dashed gray;
+        border-radius: 5px;
+        margin: 15px;
+      }
+      .intro .asdf > div:first-child {
+        margin-left: 30px;
+      }
+      .intro .asdf > div:last-child {
+        margin-right: 30px;
       }
       .intro pre {
         text-align: left;
@@ -122,6 +188,49 @@
         100% {
           opacity: 0;
           transform: translate(-80%, -50%) scale(1.3) rotate(-35deg);
+        }
+      }
+
+      @keyframes drag-and-drop {
+        /* Drag the thing to the right */
+        0% {
+          opacity: 0;
+          transform: translate(0) scale(1) rotate(0deg);
+        }
+        8% {
+          opacity: 1;
+          transform: translate(0) scale(1) rotate(0deg);
+        }
+        75% {
+          opacity: 1;
+          transform: translate(160%) scale(1);
+        }
+        90% {
+          opacity: 1
+          transform: translate(160%) scale(1) rotate(0deg);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(160%) scale(0.5) rotate(15deg);
+        }
+      }
+
+      @keyframes highlight-dropzone {
+        /* Drag the thing to the right */
+        0% {
+          background-color: white;
+        }
+        45% {
+          background-color: white;
+        }
+        75% {
+          background-color: lightgray;
+        }
+        85% {
+          background-color: lightgray;
+        }
+        100% {
+          background-color: white;
         }
       }
 
@@ -153,8 +262,50 @@
         animation-fill-mode: forwards;
       }
 
-      .drop {
-        background: blue;
+      .drag-and-drop {
+        animation-name: drag-and-drop;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+      }
+
+      .highlight-dropzone {
+        animation-name: highlight-dropzone;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+      }
+
+      #drop {
+        background-color: lightgray;
+      }
+
+      #instructions > div {
+        width: 100%;
+      }
+
+      .visible {
+        opacity: 1;
+      }
+
+      .invisible {
+        opacity: 0;
+      }
+
+      .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        text-align: center;
+        background-color: white;
+        transition: 200ms;
+      }
+
+      .overlay > div {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
       }
     </style>
   </head>
@@ -170,6 +321,61 @@
           <div class="text"></div>
         </div>
       </div>
+    </div>
+    <div id="qrCode" class="overlay invisible">
+      <div>This will be a QR Code</div>
+    </div>
+    <div id="instructions" class="overlay visible">
+      <div class="intro">
+        <h1>Flashcards</h1>
+        <p>Study without any BS.</p>
+        <div class="asdf">
+          <div>
+            <h2>Step 1: Create a text file</h2>
+            <p>The text file with your slides should be formatted as follows:</p>
+            <pre class="note drag-and-drop">
+  Front of card 1
+  ---
+  Back of card 1
+  ---
+  Front of card 2
+  ---
+  Back of card 2
+  ---
+  Front of card 3
+  ---
+  Back of card 3
+            </pre>
+          </div>
+          <div class="highlight-dropzone">
+            <h2>Step 2: Drop the file</h2>
+            <p>To begin, simply drag and drop a text file with your flashcards onto the page.</p>
+          </div>
+          <div>
+            <h2>Step 3: Study</h2>
+            <p>Once the questions are loaded, you can use the space and arrow keys to naviagate your flash cards!</p>
+            <table>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="key up">↑</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="key space"></td>
+                <td class="blank"></td>
+                <td class="key left">←</td>
+                <td class="key down">↓</td>
+                <td class="key right">→</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="drop" class="overlay invisible">
+      <div>That's it! Just let go of the mouse button and you'll already be 10% smarter.</div>
     </div>
     <script>
 
@@ -191,6 +397,9 @@ const UP    = 38;
 const RIGHT = 39;
 const DOWN  = 40;
 
+var qrCode    = document.getElementById('qrCode');
+var instructions = document.getElementById('instructions');
+var drop = document.getElementById('drop');
 var card      = document.getElementById('card');
 var front     = card.querySelector('#front');
 var back      = card.querySelector('#back');
@@ -218,53 +427,6 @@ var flip = function () {
 
 var render = function () {
   if (!cards.length) {
-    frontText.innerHTML = `
-    <div class="intro">
-      <h1>Flashcards</h1>
-      <p>To begin, simply drag and drop a text file with your flashcards onto the page.</p>
-      <div class="asdf">
-        <div class="left">
-          <p>The text file should be formatted as follows:</p>
-          <pre>
-Front of card 1
----
-Back of card 1
----
-Front of card 2
----
-Back of card 2
----
-Front of card 3
----
-Back of card 3
-          </pre>
-        </div>
-        <div class="right">
-          <p>Once the questions are loaded, you can use the space and arrow keys to naviagate your flash cards!</p>
-          <table>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td class="key">↑</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td class="key space"></td>
-              <td class="blank"></td>
-              <td class="key">←</td>
-              <td class="key">↓</td>
-              <td class="key">→</td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </div>
-    `;
-    front.className = currentFace == FRONT ? 'shown' : '';
-    backText.innerHTML = 'Oh, this is awkward...';
-    back.className = currentFace == BACK ? 'shown' : '';
-
     return;
   }
 
@@ -347,15 +509,40 @@ var resizeText = function (element) {
     }
 };
 
+var showQRCode = function () {
+  qrCode.classList.remove('invisible');
+  qrCode.classList.add('visible');
+};
+
+var hideQRCode = function () {
+  qrCode.classList.remove('visible');
+  qrCode.classList.add('invisible');
+};
+
 var handleKeyDown = function (e) {
   if (e.keyCode == SPACE) {
     flip();
+    document.querySelector('.key.space').classList.add('pressed');
   } else if (e.keyCode == ENTER) {
-    flip();
+    showQRCode();
   } else if (e.keyCode == LEFT) {
     previous();
+    document.querySelector('.key.left').classList.add('pressed');
   } else if (e.keyCode == RIGHT) {
     next();
+    document.querySelector('.key.right').classList.add('pressed');
+  }
+};
+
+var handleKeyUp = function (e) {
+  if (e.keyCode == ENTER) {
+    hideQRCode();
+  } else if (e.keyCode == SPACE) {
+    document.querySelector('.key.space').classList.remove('pressed');
+  } else if (e.keyCode == LEFT) {
+    document.querySelector('.key.left').classList.remove('pressed');
+  } else if (e.keyCode == RIGHT) {
+    document.querySelector('.key.right').classList.remove('pressed');
   }
 };
 
@@ -398,10 +585,11 @@ function handleFileSelect (e) {
     // Read in the image file as a data URL.
     reader.readAsText(f);
   }
-  var el = e.target;
-  while ((el = el.parentElement) && el.id != 'card');
+  drop.classList.add('invisible');
+  drop.classList.remove('visible');
 
-  el.classList.remove('drop');
+  instructions.classList.add('invisible');
+  instructions.classList.remove('visible');
 
 }
 
@@ -410,28 +598,22 @@ function handleDragOver (e) {
   e.preventDefault();
   e.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
 
-  var el = e.target;
-  while ((el = el.parentElement) && el.id != 'card');
-
-  // Add the class to say we're dragging over
-  el.classList.add('drop');
-  // e.target.classList.remove('drop');
+  drop.classList.add('visible');
+  drop.classList.remove('invisible');
 }
 
 function handleDragLeave (e) {
-  var el = e.target;
-  while ((el = el.parentElement) && el.id != 'card');
-
-  el.classList.remove('drop');
-  // e.target.classList.remove('drop');
+  drop.classList.add('invisible');
+  drop.classList.remove('visible');
 }
 
 // Bind all of the event listeners
 card.addEventListener('click', flip);
-card.addEventListener('dragover', handleDragOver, true);
-card.addEventListener('dragleave', handleDragLeave, true);
-card.addEventListener('drop', handleFileSelect, true);
+document.addEventListener('dragover', handleDragOver, true);
+document.addEventListener('dragleave', handleDragLeave, true);
+document.addEventListener('drop', handleFileSelect, true);
 document.addEventListener('keydown', handleKeyDown);
+document.addEventListener('keyup', handleKeyUp);
 window.addEventListener('resize', render);
 
 // Shuffle the indices
