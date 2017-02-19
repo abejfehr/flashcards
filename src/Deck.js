@@ -19,11 +19,14 @@ export default class Deck {
     }
 
     // Shuffle the deck
-    for (let i = this._inbox.length; i; --i) {
-      let j = Math.floor(Math.random() * i);
-      [this._inbox[i - 1], this._inbox[j]] = [this._inbox[j], this._inbox[i - 1]];
-    }
+    this._shuffle(this._inbox);
+  }
 
+  _shuffle (list) {
+    for (let i = list.length; i; --i) {
+      let j = Math.floor(Math.random() * i);
+      [list[i - 1], list[j]] = [list[j], list[i - 1]];
+    }
   }
 
   previous () {

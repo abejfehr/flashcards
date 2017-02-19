@@ -72,15 +72,17 @@ export default class Flashcards {
   render () {
     if (!this._deck) { return; }
 
-    // Put that card's text on the front/back of the actual card
-    this.frontText.innerText = this._deck.top.front;
-    this.resizeText(this.frontText);
+    // If the card should be flipped, show it
     if (this._deck.top.flipped) {
       this.card.classList.add('flipped');
     } else {
       this.card.classList.remove('flipped');
     }
-    this.backText.innerText = this._deck.top.back;
+
+    // Put that card's text on the front/back of the actual card
+    this.frontText.innerHTML = this._deck.top.front;
+    this.backText.innerHTML = this._deck.top.back;
+    this.resizeText(this.frontText);
     this.resizeText(this.backText);
   }
 

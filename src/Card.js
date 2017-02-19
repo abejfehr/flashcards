@@ -1,8 +1,10 @@
+import {markdown} from 'markdown';
+
 export default class Card {
   constructor (front, back) {
     // The front and back text of the card
-    this._front = front;
-    this._back = back;
+    this._front = markdown.toHTML(front);
+    this._back  = markdown.toHTML(back);
 
     // Whether this card is face up or not
     this._flipped = false;

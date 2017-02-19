@@ -1,10 +1,13 @@
-Front of card 1
+Front of _card_ 1
 ---
 Back of card 1
 ---
 Front of card 2
 ---
 Back of card 2
+
+* list item 1
+* list item 2
 ---
 Front of card 3
 ---
