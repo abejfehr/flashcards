@@ -81,7 +81,7 @@ export default class Flashcards {
 
     // Put that card's text on the front/back of the actual card
     this.frontText.innerHTML = this._deck.top.front;
-    this.backText.innerHTML = this._deck.top.back;
+    this.backText.innerHTML  = this._deck.top.back;
     this.resizeText(this.frontText);
     this.resizeText(this.backText);
   }
@@ -118,15 +118,18 @@ export default class Flashcards {
   handleKeyDown (e) {
     if (e.keyCode == Keys.SPACE) {
       document.querySelector('.key.space').classList.add('pressed');
+      document.querySelector('.effect').innerText = 'flip card';
       this._deck.top.flip();
       this.render();
     } else if (e.keyCode == Keys.ENTER) {
       this.showQRCode();
     } else if (e.keyCode == Keys.LEFT) {
       document.querySelector('.key.left').classList.add('pressed');
+      document.querySelector('.effect').innerText = 'previous card';
       this.previous();
     } else if (e.keyCode == Keys.RIGHT) {
       document.querySelector('.key.right').classList.add('pressed');
+      document.querySelector('.effect').innerText = 'next card';
       this.next();
     }
   }
@@ -136,10 +139,19 @@ export default class Flashcards {
       this.hideQRCode();
     } else if (e.keyCode == Keys.SPACE) {
       document.querySelector('.key.space').classList.remove('pressed');
+      if (document.querySelector('.effect').innerText == 'flip card') {
+        document.querySelector('.effect').innerText = '';
+      }
     } else if (e.keyCode == Keys.LEFT) {
       document.querySelector('.key.left').classList.remove('pressed');
+      if (document.querySelector('.effect').innerText == 'previous card') {
+        document.querySelector('.effect').innerText = '';
+      }
     } else if (e.keyCode == Keys.RIGHT) {
       document.querySelector('.key.right').classList.remove('pressed');
+      if (document.querySelector('.effect').innerText == 'next card') {
+        document.querySelector('.effect').innerText = '';
+      }
     }
   }
 
@@ -182,7 +194,6 @@ export default class Flashcards {
   }
 
   start () {
-    // Render the first card
     this.render();
   }
 };

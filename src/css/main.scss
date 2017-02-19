@@ -104,41 +104,19 @@ h1 {
 
 .note {
   position: relative;
-  width: 60%;
-  padding: 1em 1.5em;
-  margin: 50px auto;
-  color: #fff;
-  background: #97C02F;
+  width: 150px;
+  height: 170px;
+  padding: 25px;
+  margin: 15px auto;
+  color: #000;
+  background: linear-gradient(to bottom left, transparent 50%, #eee 50%), linear-gradient(to right, #fff 99.9%, transparent 99.9%), linear-gradient(to right, #fff 99.9%, transparent 99.9%);
+  background-size: 16px 16px, 100% 100%, 100% 100%;
+  background-position: 100% 0%, -16px 0%, 100% 16px;
+  background-repeat: no-repeat;
   overflow: hidden;
-}
-
-.note:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  border-width: 0 16px 16px 0;
-  border-style: solid;
-  border-color: #fff #fff #658E15 #658E15;
-  background: #658E15;
-  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.3), -1px 1px 1px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.3), -1px 1px 1px rgba(0,0,0,0.2);
-  box-shadow: 0 1px 1px rgba(0,0,0,0.3), -1px 1px 1px rgba(0,0,0,0.2);
-  /* Firefox 3.0 damage limitation */
-  display: block; width: 0;
-}
-
-.note.rounded {
-  -moz-border-radius: 5px 0 5px 5px;
-  border-radius: 5px 0 5px 5px;
-}
-
-.note.rounded:before {
-  border-width: 8px;
-  border-color: #fff #fff transparent transparent;
-  -moz-border-radius: 0 0 0 5px;
-  border-radius: 0 0 0 5px;
-}
+  -webkit-box-shadow: -5px 4px 17px -6px rgba(0,0,0,0.5);
+  -moz-box-shadow: -5px 4px 17px -6px rgba(0,0,0,0.5);
+  box-shadow: -5px 4px 17px -6px rgba(0,0,0,0.5);}
 
 .intro table {
   margin: 0 auto;
@@ -151,18 +129,24 @@ h1 {
   border-radius: 4px;
   transition: 100ms;
 }
+
 .intro .space.key {
   width: 200px;
 }
+
 .intro .key.pressed {
-  background-color: pink;
+  background-color: lightgray;
 }
+
 .intro .blank {
   width: 75px;
 }
+
 .intro .asdf {
   display: flex;
+  margin-top: 50px;
 }
+
 .intro .asdf > div {
   flex: 1;
   padding: 15px;
@@ -170,12 +154,16 @@ h1 {
   border-radius: 5px;
   margin: 15px;
 }
+
 .intro .asdf > div:first-child {
   margin-left: 30px;
+  padding-bottom: 270px;
 }
+
 .intro .asdf > div:last-child {
   margin-right: 30px;
 }
+
 .intro pre {
   text-align: left;
 }
@@ -209,23 +197,33 @@ h1 {
   /* Drag the thing to the right */
   0% {
     opacity: 0;
-    transform: translate(0) scale(1) rotate(0deg);
+    position: absolute;
+    left: 17%;
+    transform: translate(-50%) scale(1) rotate(0deg);
   }
   8% {
     opacity: 1;
-    transform: translate(0) scale(1) rotate(0deg);
+    position: absolute;
+    left: 17%;
+    transform: translate(-50%) scale(1) rotate(0deg);
   }
   75% {
     opacity: 1;
-    transform: translate(160%) scale(1);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%) scale(1);
   }
   90% {
     opacity: 1;
-    transform: translate(160%) scale(1) rotate(0deg);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%) scale(1) rotate(0deg);
   }
   100% {
     opacity: 0;
-    transform: translate(160%) scale(0.5) rotate(15deg);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%) scale(0.5) rotate(15deg);
   }
 }
 
