@@ -16,6 +16,10 @@ html, body {
   overflow: hidden;
   perspective: 7000px;
   font-family: sans-serif;
+  background-image: url(../../assets/wood.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
 
 h1, h2 {
@@ -39,6 +43,14 @@ h1 {
   opacity: 0;
 }
 
+#card.flipped #front {
+  transform: rotateY(180deg) !important;
+}
+
+#card.flipped #back {
+  transform: rotateY(0deg) !important;
+}
+
 #card > div {
   backface-visibility: hidden;
   border: 1px solid lightgray;
@@ -53,17 +65,15 @@ h1 {
 }
 
 #front {
-  transform: rotateY(180deg);
+  transform: rotateY(0deg);
   z-index: 2;
+  background-color: white;
 }
 
 #back {
   transform: rotateY(-180deg);
   z-index: 1;
-}
-
-.shown {
-  transform: rotateY(0deg) !important;
+  background-color: white;
 }
 
 .container {

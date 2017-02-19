@@ -18,11 +18,6 @@ gulp.task('webpack', [], function(callback) {
   var myConfig = Object.create(webpackConfig);
   myConfig.plugins = [
 		new webpack.optimize.DedupePlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      },
-    }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         drop_debugger: false
