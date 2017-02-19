@@ -1,1 +1,11 @@
+# Bad files
 .DS_Store
+
+# Nasty folder
+node_modules
+
+# My terrible religion flashcards
+religion.txt
+
+# Transgressions and sins
+npm-debug.log
