@@ -3,7 +3,7 @@ import Card from './Card.js';
 export default class Deck {
   constructor (data) {
     // Keep two stacks for this data structure
-    this._inbox = [];
+    this._cards = [];
 
     // Parse the given data into a deck
     this._parseData(data);
@@ -15,11 +15,11 @@ export default class Deck {
     for (let i = 0; i < lines.length; i += 2) {
       var front = lines[i];
       var back = i + 1 < lines.length ? lines[i + 1] : '';
-      this._inbox.push(new Card(front, back));
+      this._cards.push(new Card(front, back));
     }
 
     // Shuffle the deck
-    this._shuffle(this._inbox);
+    this._shuffle(this._cards);
   }
 
   _shuffle (list) {
@@ -33,17 +33,17 @@ export default class Deck {
     if (this.top.flipped) {
       this.top.flip()
     }
-    this._inbox.unshift(this._inbox.pop());
+    this._cards.unshift(this._cards.pop());
   }
 
   next () {
     if (this.top.flipped) {
       this.top.flip()
     }
-    this._inbox.push(this._inbox.shift());
+    this._cards.push(this._cards.shift());
   }
 
   get top () {
-    return this._inbox[0];
+    return this._cards[0];
   }
 };

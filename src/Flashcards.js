@@ -1,5 +1,6 @@
 import Deck from './Deck';
 import Keys from './Keys';
+import AQRCode from './AQRCode';
 
 // The amount of pixels the input's contents is allowed to exceed its size
 const SAFE  = 5;
@@ -171,6 +172,11 @@ export default class Flashcards {
           // Parse the results and then move them to an object
           this._deck = new Deck(file.target.result);
           this.render();
+          (new AQRCode()).create(file.target.result).then(function (code) {
+            var image = new Image();
+            image.src = code;
+            this.qrCode.querySelector('#code').appendChild(image);
+          }.bind(this));
         }
       }.bind(this);
 
