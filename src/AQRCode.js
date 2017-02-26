@@ -1,8 +1,13 @@
 import QRCode from 'qrcode-js';
 import GIF from 'gif.js';
+import LZString from 'lz-string';
 
 export default class AQRCode {
   create (data) {
+
+    // Compress the data
+    data = LZString.compress(data);
+
     return new Promise(function (resolve, reject) {
       // Returns a GIF of an animated QR code that can be shared with friends to share the cards
       var frames = [];
