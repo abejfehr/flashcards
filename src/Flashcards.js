@@ -18,8 +18,8 @@ export default class Flashcards {
     this.card         = document.getElementById('card');
     this.front        = this.card.querySelector('#front');
     this.back         = this.card.querySelector('#back');
-    this.frontText    = this.card.querySelector('#front .text');
-    this.backText     = this.card.querySelector('#back .text');
+    this.frontText    = this.card.querySelector('#front .contents');
+    this.backText     = this.card.querySelector('#back .contents');
 
     // Bind all of the event listeners
     document.addEventListener('dragover', this.handleDragOver.bind(this), true);
