@@ -1,0 +1,72 @@
+#card {
+  width: 90%;
+  height: 90%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transform-style: preserve-3d;
+  font-family: 'Poppins', sans-serif;
+  opacity: 0;
+
+  &.flipped {
+    #front {
+      transform: rotateY(180deg) !important;
+    }
+
+    #back {
+      transform: rotateY(0deg) !important;
+    }
+  }
+}
+
+#card > div {
+  backface-visibility: hidden;
+  border: 1px solid lightgray;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 4%;
+  transition: 200ms;
+  box-shadow: 5px 5px 15px #000;
+}
+
+#front {
+  transform: rotateY(0deg);
+  z-index: 2;
+  background-color: white;
+}
+
+#back {
+  transform: rotateY(-180deg);
+  z-index: 1;
+  background-color: white;
+}
+
+.container {
+  /* border: 1px dashed lightgray; */
+  height: 100%;
+  position: relative;
+}
+
+.text {
+  cursor: default;
+  text-align: center;
+  font-weight: bold;
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  overflow-wrap: normal;
+  transform: translate(0, -50%);
+  position: absolute;
+  top: 50%;
+  -webkit-touch-callout: none; /* iOS Safari */
+-webkit-user-select: none; /* Safari */
+-khtml-user-select: none; /* Konqueror HTML */
+-moz-user-select: none; /* Firefox */
+-ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                          supported by Chrome and Opera */
+}

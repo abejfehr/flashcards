@@ -4,7 +4,7 @@
   "description": "What even am I doing",
   "main": "index.js",
   "scripts": {
-    "build": "gulp",
+    "build": "gulp webpack",
     "start": "webpack-dev-server --progress --inline --hot --port 8000"
   },
   "repository": {
