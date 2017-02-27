@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>Flashcards</title>
-    <link href="https://fonts.googleapis.com/css?family=Archivo+Poppins|Quicksand" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
   </head>
   <body>
-    <div id="card" class="show-left">
+    <div id="card" class="show">
       <div id="front">
         <div class="container">
           <div class="contents"></div>
@@ -18,14 +18,11 @@
         </div>
       </div>
     </div>
-    <div id="qrCode" class="overlay invisible">
-      <div id="code"></div>
-    </div>
     <div id="instructions" class="overlay">
       <div class="intro">
         <h1>Flashcards</h1>
         <p>Study without any BS.</p>
-        <div class="asdf">
+        <div class="steps-container">
           <div>
             <h2>Step 1: Create a text file</h2>
             <p>The text file with your slides should be formatted as follows:</p>
@@ -70,9 +67,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div id="drop" class="overlay invisible">
-      <div>That's it! Just let go of the mouse button and you'll already be 10% smarter.</div>
     </div>
     <script src="dist/main.js"></script>
   </body>

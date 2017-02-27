@@ -6,7 +6,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   transform-style: preserve-3d;
-  font-family: 'Poppins', sans-serif;
+  font-family: sans-serif;
   opacity: 0;
 
   &.flipped {
@@ -30,7 +30,7 @@
     padding: 4%;
     transition: 200ms;
     box-shadow: 5px 5px 15px #000;
-    
+
     .container {
       /* border: 1px dashed lightgray; */
       height: 100%;
@@ -41,7 +41,7 @@
         text-align: center;
         font-weight: bold;
         max-height: 100%;
-        max-width: 100%;
+        width: 100%;
         overflow: hidden;
         overflow-wrap: normal;
         transform: translate(0, -50%);
@@ -54,9 +54,9 @@
       -ms-user-select: none; /* Internet Explorer/Edge */
           user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome and Opera */
-        ul {
+        ul, ol {
           text-align: left;
-          margin-left: 20px;
+          margin-left: 1em;
         }
       }
     }

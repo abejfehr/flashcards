@@ -1,7 +1,7 @@
-@keyframes show-right {
+@keyframes show {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.5);
+    transform: translate(-50%, -50%) scale(0.75);
   }
   100% {
     opacity: 1;
@@ -9,10 +9,10 @@
   }
 }
 
-@keyframes dispose-left {
+@keyframes dispose {
   0% {
     opacity: 1;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(1);
   }
   80% {
     opacity: 0;
@@ -27,39 +27,27 @@
   /* Drag the thing to the right */
   0% {
     opacity: 0;
-    position: absolute;
-    left: 17%;
     transform: translate(-50%) scale(1) rotate(0deg);
   }
   4% {
     opacity: 1;
-    position: absolute;
-    left: 17%;
     transform: translate(-50%) scale(1) rotate(0deg);
   }
   54% {
     opacity: 1;
-    position: absolute;
-    left: 17%;
     transform: translate(-50%) scale(1) rotate(0deg);
   }
   87% {
     opacity: 1;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%) scale(1);
+    transform: translate(calc(33vw - 50%)) scale(1);
   }
   95% {
     opacity: 1;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%) scale(1) rotate(0deg);
+    transform: translate(calc(33vw - 50%)) scale(1) rotate(0deg);
   }
   100% {
     opacity: 0;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%) scale(0.5) rotate(15deg);
+    transform: translate(calc(33vw - 50%)) scale(0.5) rotate(15deg);
   }
 }
 

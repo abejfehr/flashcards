@@ -14,3 +14,9 @@ var app = new Flashcards();
 document.addEventListener('DOMContentLoaded', function () {
   app.start();
 });
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('serviceworker.js').catch(function(err) {
+    console.error('ServiceWorker registration failed: ', err);
+  });
+}

@@ -21,7 +21,8 @@ h1 {
 }
 
 .file {
-  position: relative;
+  position: absolute;
+  left: 17%;
   width: 150px;
   height: 170px;
   padding: 25px;
@@ -60,12 +61,12 @@ h1 {
   width: 75px;
 }
 
-.intro .asdf {
+.intro .steps-container {
   display: flex;
   margin-top: 50px;
 }
 
-.intro .asdf > div {
+.intro .steps-container > div {
   flex: 1;
   padding: 15px;
   border: 3px dashed gray;
@@ -73,12 +74,12 @@ h1 {
   margin: 15px;
 }
 
-.intro .asdf > div:first-child {
+.intro .steps-container > div:first-child {
   margin-left: 30px;
   padding-bottom: 270px;
 }
 
-.intro .asdf > div:last-child {
+.intro .steps-container > div:last-child {
   margin-right: 30px;
 }
 
@@ -86,32 +87,25 @@ h1 {
   text-align: left;
 }
 
-.dispose-left {
-  animation-name: dispose-left;
+.dispose {
+  animation-name: dispose;
   animation-duration: 150ms;
   animation-fill-mode: forwards;
+  animation-play-state: running;
+  animation-direction: normal;
 }
 
-.show-right {
-  animation-name: show-right;
+.show {
+  animation-name: show;
   animation-duration: 150ms;
-  animation-delay: 200ms;
   animation-fill-mode: forwards;
+  animation-play-state: running;
+  animation-direction: normal;
 }
 
-.dispose-right {
-  animation-name: show-right;
+.reversed {
   animation-direction: reverse;
-  animation-duration: 150ms;
-  animation-fill-mode: forwards;
-}
-
-.show-left {
-  animation-name: dispose-left;
-  animation-direction: reverse;
-  animation-duration: 150ms;
-  animation-delay: 200ms;
-  animation-fill-mode: forwards;
+  animation-play-state: running;
 }
 
 .drag-and-drop {
@@ -139,7 +133,6 @@ h1 {
 }
 
 .invisible {
-  // pointer-events: none;
   opacity: 0;
 }
 

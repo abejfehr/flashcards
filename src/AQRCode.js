@@ -61,7 +61,7 @@ export default class AQRCode {
     return new Promise(function (resolve, reject) {
       var image = new Image();
       image.onload = function() {
-        gif.addFrame(image, { delay: 150 });
+        gif.addFrame(image, { delay: 200 });
         resolve();
       };
       image.src = data;
