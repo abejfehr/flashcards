@@ -33,11 +33,11 @@ export default class Flashcards {
 
   previous () {
     // Move the current card away
-    card.style.animation = 'none';
+    this.card.style.animation = 'none';
     setTimeout(function () {
-      card.style.animation = '';
-      card.classList.add('reversed', 'show');
-      card.classList.remove('dispose');
+      this.card.style.animation = '';
+      this.card.classList.add('reversed', 'show');
+      this.card.classList.remove('dispose');
     });
 
     setTimeout(function () {
@@ -49,19 +49,19 @@ export default class Flashcards {
 
       // Reveal the card
       setTimeout(function () {
-        card.classList.remove('show');
-        card.classList.add('reversed', 'dispose');
+        this.card.classList.remove('show');
+        this.card.classList.add('reversed', 'dispose');
       }.bind(this), 200);
     }.bind(this), 150);
   }
 
   next () {
     // Move the current card away
-    card.style.animation = 'none';
+    this.card.style.animation = 'none';
     setTimeout(function () {
-      card.classList.remove('reversed', 'show');
-      card.style.animation = '';
-      card.classList.add('dispose');
+      this.card.classList.remove('reversed', 'show');
+      this.card.style.animation = '';
+      this.card.classList.add('dispose');
     });
 
     setTimeout(function () {
@@ -73,8 +73,8 @@ export default class Flashcards {
 
       // Reveal the card
       setTimeout(function () {
-        card.classList.remove('dispose');
-        card.classList.add('show');
+        this.card.classList.remove('dispose');
+        this.card.classList.add('show');
       }.bind(this), 200);
     }.bind(this), 150);
   }
@@ -139,4 +139,4 @@ export default class Flashcards {
   start () {
     this.render();
   }
-};
+}

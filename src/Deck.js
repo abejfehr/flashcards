@@ -10,15 +10,18 @@ export default class Deck {
 
     // Parse the given data into a deck
     this._parseData(data);
-  };
+  }
 
   _parseData (data) {
     // Separate the cards by the dashes
-    var lines = data.split(/\n+\-{3,}\n+/g);
+    var lines = data.split(/[\r\n?|\n]+\-{3,}[\r\n?|\n]+/g);
     for (let i = 0; i < lines.length; i += 2) {
       var front = lines[i];
       var back = i + 1 < lines.length ? lines[i + 1] : '';
-      this._cards.push(new Card(front, back));
+      if (front || back) {
+        console.log('ADDING CARD', front, back);
+        this._cards.push(new Card(front, back));
+      }
     }
 
     // Shuffle the deck
@@ -68,4 +71,4 @@ export default class Deck {
   get top () {
     return this._cards[0];
   }
-};
+}

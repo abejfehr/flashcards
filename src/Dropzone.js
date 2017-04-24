@@ -35,7 +35,6 @@ export default class Dropzone {
     var files = e.dataTransfer.files; // FileList object.
 
     // files is a FileList of File objects. List some properties.
-    var output = [];
     for (var i = 0, f; f = files[i]; i++) {
       var reader = new FileReader();
 
@@ -61,9 +60,9 @@ export default class Dropzone {
     this._element.classList.remove('invisible');
   }
 
-  _handleDragLeave (e) {
+  _handleDragLeave () {
     this._element.classList.add('invisible');
   }
 
 
-};
+}

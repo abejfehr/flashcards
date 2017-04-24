@@ -4,7 +4,6 @@ import gutil from 'gulp-util';
 import webpack from 'webpack';
 import webpackConfig from './webpack.config.babel';
 import WebpackDevServer from 'webpack-dev-server';
-import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 gulp.task('default', ['webpack']);
 

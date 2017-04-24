@@ -25,4 +25,4 @@ export default class Card {
   get back () {
     return this._back;
   }
-};
+}

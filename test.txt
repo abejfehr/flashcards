@@ -1,4 +1,4 @@
-Front of _card_ 1
+Front of *card* 1
 ---
 Back of card 1
 ---
@@ -12,3 +12,4 @@ Back of card 2
 Front of card 3
 ---
 Back of card 3
+---
