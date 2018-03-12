@@ -14,12 +14,11 @@ export default class Deck {
 
   _parseData (data) {
     // Separate the cards by the dashes
-    var lines = data.split(/[\r\n?|\n]+\-{3,}[\r\n?|\n]+/g);
+    var lines = data.split(/[\r?\n?]+\-{3,}[\r?\n?]+/g);
     for (let i = 0; i < lines.length; i += 2) {
       var front = lines[i];
       var back = i + 1 < lines.length ? lines[i + 1] : '';
       if (front || back) {
-        console.log('ADDING CARD', front, back);
         this._cards.push(new Card(front, back));
       }
     }
