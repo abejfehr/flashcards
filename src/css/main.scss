@@ -1,0 +1,158 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  perspective: 7000px;
+  font-family: sans-serif;
+  background-image: url(../../assets/wood.jpg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+
+h1, h2 {
+  font-family: 'Quicksand', sans-serif;
+}
+
+h1 {
+  font-size: 6vw;
+  margin-bottom: 3px;
+}
+
+.file {
+  position: absolute;
+  left: 17%;
+  width: 150px;
+  height: 170px;
+  padding: 25px;
+  margin: 15px auto;
+  color: #000;
+  background: linear-gradient(to bottom left, transparent 50%, #eee 50%), linear-gradient(to right, #fff 99.9%, transparent 99.9%), linear-gradient(to right, #fff 99.9%, transparent 99.9%);
+  background-size: 16px 16px, 100% 100%, 100% 100%;
+  background-position: 100% 0%, -16px 0%, 100% 16px;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  -webkit-box-shadow: -5px 4px 17px -6px rgba(0,0,0,0.5);
+  -moz-box-shadow: -5px 4px 17px -6px rgba(0,0,0,0.5);
+  box-shadow: -5px 4px 17px -6px rgba(0,0,0,0.5);}
+
+.intro table {
+  margin: 0 auto;
+}
+
+.intro .key {
+  border: 2px solid black;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 4px;
+  transition: 100ms;
+}
+
+.intro .space.key {
+  width: 200px;
+}
+
+.intro .key.pressed {
+  background-color: lightgray;
+}
+
+.intro .blank {
+  width: 75px;
+}
+
+.intro .steps-container {
+  display: flex;
+  margin-top: 50px;
+}
+
+.intro .steps-container > div {
+  flex: 1;
+  padding: 15px;
+  border: 3px dashed gray;
+  border-radius: 5px;
+  margin: 15px;
+}
+
+.intro .steps-container > div:first-child {
+  margin-left: 30px;
+  padding-bottom: 270px;
+}
+
+.intro .steps-container > div:last-child {
+  margin-right: 30px;
+}
+
+.intro pre {
+  text-align: left;
+}
+
+.dispose {
+  animation-name: dispose;
+  animation-duration: 150ms;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+  animation-direction: normal;
+}
+
+.show {
+  animation-name: show;
+  animation-duration: 150ms;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+  animation-direction: normal;
+}
+
+.reversed {
+  animation-direction: reverse;
+  animation-play-state: running;
+}
+
+.drag-and-drop {
+  animation-name: drag-and-drop;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+.highlight-dropzone {
+  animation-name: highlight-dropzone;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+}
+
+#drop {
+  background-color: lightgray;
+}
+
+#instructions > div {
+  width: 100%;
+}
+
+.visible {
+  opacity: 1;
+}
+
+.invisible {
+  opacity: 0;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  background-color: white;
+  transition: 200ms;
+}
+
+.overlay > div {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@import 'includes/animations.scss';
+@import 'includes/card.scss';
